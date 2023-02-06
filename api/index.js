@@ -19,7 +19,16 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect('mongodb+srv://blog:RD8paskYC8Ayj09u@cluster0.pflplid.mongodb.net/?retryWrites=true&w=majority');
+// mongoose.connect('mongodb+srv://blog:RD8paskYC8Ayj09u@cluster0.pflplid.mongodb.net/?retryWrites=true&w=majority');
+// connect to db
+mongoose.connect('mongodb://admin:password@mongodb?authSource=admin', { useNewUrlParser: true } ) // with docker 'mongoose.connect('mongodb://admin:password@mongodb/blogs?authSource=admin' + localhost we use localhost
+.then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
+  const port = 4000;
+  app.listen(port, ()=> {
+    console.log(('server running on port 4000!'));
+  });
 
 app.post('/register', async (req,res) => {
   const {username,password} = req.body;
@@ -134,5 +143,3 @@ app.get('/post/:id', async (req, res) => {
   res.json(postDoc);
 })
 
-app.listen(4000);
-//
